@@ -1,0 +1,63 @@
+@model IEnumerable<Game>
+@{
+    ViewData["Title"] = "Главная";
+}
+
+<section class="hero">
+    <div>
+        <span class="eyebrow">МАГАЗИН ИГР</span>
+
+        <h1>Игры для PlayStation, Xbox и Nintendo</h1>
+
+        <p>
+            Каталог консольных игр с подробной информацией и возможностью покупки через корзину.
+        </p>
+
+        <a class="button" asp-controller="Games" asp-action="Index">
+            Открыть каталог
+        </a>
+    </div>
+</section>
+
+<section class="section-head">
+    <div>
+        <h2>Популярные игры</h2>
+        <p>Несколько игр из нашего каталога.</p>
+    </div>
+</section>
+
+<div class="game-grid">
+    @foreach (var game in Model)
+    {
+        <article class="game-card">
+            <div class="game-card-top">
+                <span class="pill">@game.Genre.Name</span>
+            </div>
+
+            <h3>@game.Title</h3>
+
+            <p>@game.Description</p>
+
+            <div class="game-card-bottom">
+                <strong>@game.Price.ToString("N0") ₽</strong>
+
+                <div class="game-card-buttons">
+                    <a class="button secondary"
+                       asp-controller="Games"
+                       asp-action="Details"
+                       asp-route-id="@game.Id">
+                        Подробнее
+                    </a>
+
+                    <form asp-controller="Cart" asp-action="Add" method="post">
+                        <input type="hidden" name="id" value="@game.Id" />
+
+                        <button class="button" type="submit">
+                            Купить
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </article>
+    }
+</div>

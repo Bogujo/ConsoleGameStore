@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Покупка завершена";
+}
+
+<div class="empty">
+    <span class="eyebrow">ПОКУПКА</span>
+
+    <h1>Покупка успешно оформлена</h1>
+
+    <p>@ViewBag.Message</p>
+
+    <a class="button" asp-controller="Games" asp-action="Index">
+        Вернуться в каталог
+    </a>
+</div>

@@ -1,0 +1,51 @@
+classDiagram
+    class Game {
+        +int Id
+        +string Title
+        +string Description
+        +decimal Price
+        +int GenreId
+    }
+    class Genre {
+        +int Id
+        +string Name
+    }
+    class Platform {
+        +int Id
+        +string Name
+    }
+    class Publisher {
+        +int Id
+        +string Name
+    }
+    class GamePlatform {
+        +int GameId
+        +int PlatformId
+    }
+    class GamePublisher {
+        +int GameId
+        +int PublisherId
+    }
+    class User {
+        +int Id
+        +string Name
+        +string Email
+    }
+    class Cart {
+        +List~CartItem~ Items
+        +decimal Total
+    }
+    class CartItem {
+        +int GameId
+        +string Title
+        +decimal Price
+        +int Quantity
+        +decimal Total
+    }
+    Genre "1" --> "*" Game
+    Game "1" --> "*" GamePlatform
+    Platform "1" --> "*" GamePlatform
+    Game "1" --> "*" GamePublisher
+    Publisher "1" --> "*" GamePublisher
+    Cart "1" --> "*" CartItem
+    CartItem "*" --> "1" Game

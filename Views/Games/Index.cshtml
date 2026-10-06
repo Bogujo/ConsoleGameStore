@@ -1,0 +1,84 @@
+@model IEnumerable<Game>
+@{
+    ViewData["Title"] = "Каталог";
+    var platforms = ViewBag.Platforms as List<Platform> ?? new List<Platform>();
+    var genres = ViewBag.Genres as List<Genre> ?? new List<Genre>();
+}
+<div class="page-head">
+    <div>
+        <span class="eyebrow">КАТАЛОГ</span>
+        <h1>Игры для консолей</h1>
+        <p>Выберите игру или воспользуйтесь фильтрами для поиска.</p>
+    </div>
+</div>
+
+<form class="filters" method="get">
+    <input type="text" name="search" value="@ViewBag.Search" placeholder="Поиск по названию" />
+
+    <select name="platformId">
+        <option value="">Все платформы</option>
+        @foreach (var platform in platforms)
+        {
+            <option value="@platform.Id" selected="@(ViewBag.PlatformId != null && (int)ViewBag.PlatformId == platform.Id ? "selected" : null)">
+                @platform.Name
+            </option>
+        }
+    </select>
+
+    <select name="genreId">
+        <option value="">Все жанры</option>
+        @foreach (var genre in genres)
+        {
+            <option value="@genre.Id" selected="@(ViewBag.GenreId != null && (int)ViewBag.GenreId == genre.Id ? "selected" : null)">
+                @genre.Name
+            </option>
+        }
+    </select>
+
+    <button class="button" type="submit">Найти</button>
+    <a class="button secondary" asp-action="Index">Сбросить</a>
+</form>
+
+<div class="game-grid">
+    @foreach (var game in Model)
+    {
+        <article class="game-card">
+            <div class="game-card-top">
+                <span class="pill">@game.Genre.Name</span>
+            </div>
+
+            <h2>@game.Title</h2>
+            <p>@game.Description</p>
+
+            <div class="tag-row">
+                @foreach (var item in game.GamePlatforms)
+                {
+                    <span class="tag">@item.Platform.Name</span>
+                }
+            </div>
+
+            <div class="game-card-bottom">
+                <strong>@game.Price.ToString("N0") ₽</strong>
+
+                <div class="game-card-buttons">
+                    <a class="button secondary" asp-action="Details" asp-route-id="@game.Id">
+                        Подробнее
+                    </a>
+
+                    <form asp-controller="Cart" asp-action="Add" method="post">
+                        <input type="hidden" name="id" value="@game.Id" />
+                        <button class="button" type="submit">Купить</button>
+                    </form>
+                </div>
+            </div>
+        </article>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty">
+        <h2>Игры не найдены</h2>
+        <p>Попробуйте изменить параметры поиска.</p>
+    </div>
+}

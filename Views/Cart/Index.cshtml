@@ -1,0 +1,87 @@
+@model Cart
+@{
+    ViewData["Title"] = "Корзина";
+}
+
+<div class="page-head">
+    <div>
+        <span class="eyebrow">КОРЗИНА</span>
+        <h1>Ваша корзина</h1>
+        <p>Здесь находятся выбранные вами игры.</p>
+    </div>
+</div>
+
+@if (!Model.Items.Any())
+{
+    <div class="empty">
+        <h2>Корзина пуста</h2>
+        <p>Добавьте игру из каталога.</p>
+        <a class="button" asp-controller="Games" asp-action="Index">
+            Перейти в каталог
+        </a>
+    </div>
+}
+else
+{
+    <div class="cart-layout">
+        <div class="cart-list">
+            @foreach (var item in Model.Items)
+            {
+                <div class="cart-item">
+                    <div>
+                        <h3>@item.Title</h3>
+                        <p>@item.Price.ToString("N0") ₽ за штуку</p>
+                    </div>
+
+                    <div class="cart-actions">
+                        <form asp-action="Update" method="post" class="quantity-form">
+                            <input type="hidden" name="id" value="@item.GameId" />
+                            <input type="number"
+                                   name="quantity"
+                                   value="@item.Quantity"
+                                   min="1"
+                                   max="99" />
+
+                            <button class="button secondary" type="submit">
+                                Обновить
+                            </button>
+                        </form>
+
+                        <strong>
+                            @item.Total.ToString("N0") ₽
+                        </strong>
+
+                        <form asp-action="Remove" method="post">
+                            <input type="hidden" name="id" value="@item.GameId" />
+
+                            <button class="link-button" type="submit">
+                                Удалить
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <aside class="cart-total">
+            <h2>Итого</h2>
+
+            <div class="total-row">
+                <span>Сумма</span>
+                <strong>@Model.Total.ToString("N0") ₽</strong>
+            </div>
+
+            <form asp-action="Clear" method="post">
+                <button class="button secondary full" type="submit">
+                    Очистить корзину
+                </button>
+            </form>
+
+            <form asp-action="Checkout" method="post">
+                <button class="button full" type="submit">
+                    Оформить покупку
+                </button>
+            </form>
+        </aside>
+    </div>
+}

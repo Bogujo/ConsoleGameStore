@@ -1,0 +1,39 @@
+erDiagram
+    GENRE ||--o{ GAME : contains
+    GAME ||--o{ GAME_PLATFORM : has
+    PLATFORM ||--o{ GAME_PLATFORM : includes
+    GAME ||--o{ GAME_PUBLISHER : has
+    PUBLISHER ||--o{ GAME_PUBLISHER : publishes
+
+    GENRE {
+        int Id PK
+        string Name
+    }
+    GAME {
+        int Id PK
+        string Title
+        string Description
+        decimal Price
+        int GenreId FK
+    }
+    PLATFORM {
+        int Id PK
+        string Name
+    }
+    PUBLISHER {
+        int Id PK
+        string Name
+    }
+    GAME_PLATFORM {
+        int GameId PK, FK
+        int PlatformId PK, FK
+    }
+    GAME_PUBLISHER {
+        int GameId PK, FK
+        int PublisherId PK, FK
+    }
+    USER {
+        int Id PK
+        string Name
+        string Email UK
+    }

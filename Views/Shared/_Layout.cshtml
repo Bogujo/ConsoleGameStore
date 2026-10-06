@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Магазин игр</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="container nav">
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                Магазин игр
+            </a>
+
+            <nav>
+                <a asp-controller="Home" asp-action="Index">Главная</a>
+                <a asp-controller="Games" asp-action="Index">Каталог</a>
+                <a asp-controller="Cart" asp-action="Index">Корзина</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            Магазин игр для консолей
+        </div>
+    </footer>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

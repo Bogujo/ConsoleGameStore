@@ -1,0 +1,51 @@
+@model Game
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="details-layout">
+    <div class="details-main">
+        <span class="eyebrow">@Model.Genre.Name</span>
+
+        <h1>@Model.Title</h1>
+
+        <p class="details-description">@Model.Description</p>
+
+        <div class="detail-block">
+            <h3>Платформы</h3>
+
+            <div class="tag-row">
+                @foreach (var item in Model.GamePlatforms)
+                {
+                    <span class="tag">@item.Platform.Name</span>
+                }
+            </div>
+        </div>
+
+        <div class="detail-block">
+            <h3>Издатель</h3>
+
+            <p>
+                @string.Join(", ", Model.GamePublishers.Select(x => x.Publisher.Name))
+            </p>
+        </div>
+    </div>
+
+    <aside class="price-box">
+        <div class="price">
+            @Model.Price.ToString("N0") ₽
+        </div>
+
+        <form asp-controller="Cart" asp-action="Add" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <button class="button full" type="submit">
+                Купить
+            </button>
+        </form>
+
+        <a class="button secondary full" asp-action="Index">
+            Вернуться в каталог
+        </a>
+    </aside>
+</div>
